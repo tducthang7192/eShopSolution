@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using eShopSolution.Data.Entities;
+using eShopSolution.Data.Configurations;
 
 namespace eShopSolution.Data.EF
 {
@@ -10,8 +11,16 @@ namespace eShopSolution.Data.EF
     {
         public EShopDbContext(DbContextOptions options) : base(options)
         {
-            options.UseSqlServer("name=ConnectionStrings:DefaultConnection");
+          
         }
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.ApplyConfiguration(new AppConfiguration());
+            modelBuilder.ApplyConfiguration(new ProductConfiguration());
+            modelBuilder.ApplyConfiguration(new CategoryConfiguration());
+            // base.OnModelCreating(modelBuilder);
+        }
+       
         public DbSet<Product> Products { get; set; }
         public DbSet<Category> Categories { get; set; }
     }
